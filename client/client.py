@@ -39,11 +39,11 @@ def on_message(ws, message):
         id = params["id"]
         filename = '/tmp/'+id+".jpg"
         if x >= 1 and x <= 3:
-            sercom = "x:" + str(x) + "\n"
-            ser.write(bytes(sercom, 'UTF-8'))
+            sercommand = "x:" + str(x) + "\n"
+            ser.write(bytes(sercommand, 'UTF-8'))
         if y >= 1 and y <= 5:
-            sercom = "y:" + str(y) + "\n"
-            ser.write(bytes(sercom, 'UTF-8'))
+            sercommand = "y:" + str(y) + "\n"
+            ser.write(bytes(sercommand, 'UTF-8'))
         pixels_on()
         camera.start_preview()
         sleep(5)
@@ -119,7 +119,7 @@ def pixels_on():
     elif option == 4:
         rainbow()
 
-def pixels_on():
+def pixels_off():
     pixels.fill((0, 0, 0))
     pixels.show()
 
