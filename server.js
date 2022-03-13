@@ -51,6 +51,7 @@ wss.on('connection', (ws, req) => {
 
 // From: https://attacomsian.com/blog/uploading-files-nodejs-express
 app.post('/upload-image', async (req, res) => {
+  console.log("Got file upload request...");
   try {
       if(!req.files) {
           res.send({
