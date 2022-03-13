@@ -32,13 +32,13 @@ wss.on('connection', (ws, req) => {
   ws.on('message', message => {
     console.log(`Received message => ${message}`);
   });
-
   const parameters = url.parse(req.url, true);
   if(parameters.query.id && parameters.query.id == "jp") {
     console.log(parameters.query.id);
     ws.uid = wss.getUniqueID();
     ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
-    ws.send('x:2');
+    let message = JSON.stringify({ x: 2, y: 3, id: wss.getUniqueID() })
+    ws.send(message);
   } else {
     console.log("Unknown client. Disconnecting.");
     ws.send('Bye.');
