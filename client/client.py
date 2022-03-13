@@ -38,10 +38,11 @@ def on_message(ws, message):
         y =  params["y"]
         id = params["id"]
         filename = '/tmp/'+id+".jpg"
-        if x >= 1 and x <= 3:
+        if x >= 0 and x <= 3:
             sercommand = "x:" + str(x) + "\n"
             ser.write(bytes(sercommand, 'UTF-8'))
-        if y >= 1 and y <= 5:
+        sleep(5)
+        if y >= 0 and y <= 5:
             sercommand = "y:" + str(y) + "\n"
             ser.write(bytes(sercommand, 'UTF-8'))
         pixels_on()
