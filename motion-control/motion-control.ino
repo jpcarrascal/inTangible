@@ -29,7 +29,7 @@ int charsRead = 0;
 const byte numChars = 32;
 char receivedChars[numChars];
 
-const int commandLength = 3;
+const int commandLength = 5;
 
 boolean newData = false;
 char axisToMove;
@@ -56,7 +56,7 @@ void setup() {
   yStepper.setAccelerationInStepsPerSecondPerSecond(2000*8);
   xStepper.setSpeedInStepsPerSecond(1000*16);
   xStepper.setAccelerationInStepsPerSecondPerSecond(2000*8);
-  delay(2000);
+  delay(1000);
   goHome();
 }
 
@@ -83,11 +83,11 @@ void loop() {
   showNewData();  
 }
 
-void goHome() {
-  xStepper.moveToHomeInMillimeters(-1, 1000, 3000, X_MIN_PIN);
-  yStepper.moveToHomeInMillimeters(1, 1000, 10000, Z_MIN_PIN);
+void goHome() {  
+  xStepper.moveToHomeInMillimeters(-1, 100, 3000, X_MIN_PIN);
+  yStepper.moveToHomeInMillimeters(1, 200, 10000, Z_MIN_PIN);
   atHome = true;
-  Serial.print("hdone");
+  Serial.println("home");
 }
 
 void recvWithEndMarker() {
@@ -122,7 +122,46 @@ void showNewData() {
     }
 }
 
+String convertToString(char* a, int size)
+{
+    int i;
+    String s = "";
+    for (i = 0; i < size; i++) {
+        s = s + a[i];
+    }
+    return s;
+}
+
 void parseCommand(int charsRead) {
+  if(charsRead == commandLength) {
+    String command = convertToString(receivedChars, commandLength);
+    if(command[2] == ':') {
+      int destination;
+      Serial.print("Command received: ");
+      Serial.println(command);
+      int xPos = command.substring(0, 2).toInt();
+      int yPos = command.substring(3, 5).toInt();
+      if(xPos < maxXpos && yPos < maxYpos) {
+          destination = (int) (yPos * (yMax / 5));
+          yStepper.moveToPositionInMillimeters(destination * yMult);
+          destination = (int) (xPos * (xMax / 5) + 25);
+          xStepper.moveToPositionInMillimeters(destination * xMult);
+          Serial.println("done");
+      } else {
+        Serial.println("Wrong command");
+      }
+    } else if(command[0] == 'h') {
+      goHome();
+    }
+  } else if(charsRead == 1 && receivedChars[0] == 'h') {
+    goHome();
+  } else {
+    Serial.println("Wrong command length");
+  }
+
+
+/*
+  
   if(charsRead == commandLength) {
     Serial.println(receivedChars);
     if(receivedChars[1] == ':') {
@@ -132,13 +171,13 @@ void parseCommand(int charsRead) {
         if(posToMove < maxXpos) {
           int destination = (int) (posToMove * (xMax / 5) + 25);
           xStepper.moveToPositionInMillimeters(destination * xMult);
-          Serial.print("xdone");
+          Serial.println("xdone");
         }
       } else if(axisToMove == 'y') {
         if(posToMove <= maxYpos) {
           int destination = (int) (posToMove * (yMax / 5));
           yStepper.moveToPositionInMillimeters(destination * yMult);
-          Serial.print("ydone");
+          Serial.println("ydone");
         }
       } else if(axisToMove == 'h') {
         goHome();
@@ -150,4 +189,5 @@ void parseCommand(int charsRead) {
       Serial.read();
     }
   }
+ */
 }
