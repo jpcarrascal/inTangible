@@ -39,7 +39,7 @@ def on_message(ws, message):
         camera.capture(filename)
         camera.stop_preview()
         with open(filename, 'rb') as f:
-            r = requests.post(serverURL+'/upload-image', files={filename: f})
+            r = requests.post("http://"+serverURL+'/upload-image', files={filename: f})
     else:
         print("Error in incoming message")
 
