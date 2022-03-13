@@ -26,9 +26,11 @@ def on_message(ws, message):
         y =  params["y"]
         id = params["id"]
         if x >= 1 and x <= 3:
-            ser.write(bytes("x:" + x + "\n", 'UTF-8'))
-        if y >= 1 and x <= 5:
-            ser.write(bytes("x:" + x + "\n", 'UTF-8'))
+            sercom = "x:" + str(x) + "\n"
+            ser.write(bytes(sercom, 'UTF-8'))
+        if y >= 1 and y <= 5:
+            sercom = "y:" + str(y) + "\n"
+            ser.write(bytes(sercom, 'UTF-8'))
         camera.start_preview()
         sleep(5)
         camera.capture('/tmp/'+id+".jpg")
