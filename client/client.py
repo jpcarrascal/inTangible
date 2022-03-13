@@ -5,7 +5,9 @@ import serial
 from picamera import PiCamera
 from time import sleep
 import json
+import requests
 
+serverURL = "JP-3.local:8080"
 camera = PiCamera()
 
 # Serial init:
@@ -25,6 +27,7 @@ def on_message(ws, message):
         x =  params["x"]
         y =  params["y"]
         id = params["id"]
+        filename = '/tmp/'+id+".jpg"
         if x >= 1 and x <= 3:
             sercom = "x:" + str(x) + "\n"
             ser.write(bytes(sercom, 'UTF-8'))
@@ -33,8 +36,10 @@ def on_message(ws, message):
             ser.write(bytes(sercom, 'UTF-8'))
         camera.start_preview()
         sleep(5)
-        camera.capture('/tmp/'+id+".jpg")
+        camera.capture(filename)
         camera.stop_preview()
+        with open(filename, 'rb') as f:
+            r = requests.post(serverURL+'/upload-image', files={filename: f})
     else:
         print("Error in incoming message")
 
@@ -49,7 +54,7 @@ def on_open(ws):
 
 if __name__ == "__main__":
     websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("ws://JP-3.local:8080?id=jp",
+    ws = websocket.WebSocketApp("ws://" + serverURL + "?id=jp",
                               on_open=on_open,
                               on_message=on_message,
                               on_error=on_error,
