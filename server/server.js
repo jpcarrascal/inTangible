@@ -17,6 +17,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use('/js', express.static(__dirname + '/public/js/'));
+app.use('/css', express.static(__dirname + '/public/css/'));
+app.use('/images', express.static(__dirname + '/public/images/'));
 
 const wss = new WebSocket.Server({ server });
 
@@ -31,14 +34,20 @@ wss.on('connection', (ws, req) => {
 
   ws.on('message', message => {
     console.log(`Received message => ${message}`);
+    let inCache = false;
+    if(!inCache) {
+      let arr = message.toString().split(":");
+      let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
+      ws.send(command);
+    }
   });
   const parameters = url.parse(req.url, true);
   if(parameters.query.id && parameters.query.id == "jp") {
     console.log(parameters.query.id);
     ws.uid = wss.getUniqueID();
     ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
-    let message = JSON.stringify({ x: 2, y: 3, id: wss.getUniqueID() })
-    ws.send(message);
+    //let message = JSON.stringify({ x: 2, y: 3, id: wss.getUniqueID() })
+    //ws.send(message);
   } else {
     console.log("Unknown client. Disconnecting.");
     ws.send('Bye.');
@@ -51,7 +60,6 @@ wss.on('connection', (ws, req) => {
 
 // From: https://attacomsian.com/blog/uploading-files-nodejs-express
 app.post('/upload-image', async (req, res) => {
-  console.log("Got file upload request...");
   try {
       if(!req.files) {
           res.send({
