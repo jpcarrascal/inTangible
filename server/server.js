@@ -30,27 +30,31 @@ wss.getUniqueID = function () {
   return s4() + s4() + '-' + s4();
 };
 
-wss.on('connection', (ws, req) => {
 
-  ws.on('message', message => {
-    console.log(`Received message => ${message}`);
-    let arr = message.toString().split(":").map(x => parseInt(x));
-    let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
-    console.log("Sending to Pi: " + command);
-    ws.send(command);
-  });
+let web;
+let pi;
+wss.on('connection', (ws, req) => {
   const parameters = url.parse(req.url, true);
-  if(parameters.query.id && (parameters.query.id == "jp" || parameters.query.id == "pi") ) {
-    console.log(parameters.query.id);
-    ws.uid = wss.getUniqueID();
+  ws.uid = wss.getUniqueID();
+  if(parameters.query.id == "pi") {
     ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
-    //let message = JSON.stringify({ x: 2, y: 3, id: wss.getUniqueID() })
-    //ws.send(message);
+    pi = ws;
+  } else if(parameters.query.id == "web") {
+    ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
+    web = ws;
   } else {
     console.log("Unknown client. Disconnecting.");
     ws.send('Bye.');
     ws.terminate();
   }
+
+  web.on('message', message => {
+    console.log(`Received message => ${message}`);
+    let arr = message.toString().split(":").map(x => parseInt(x));
+    let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
+    console.log("Sending to Pi: " + command);
+    pi.send(command);
+  });
 
 });
 

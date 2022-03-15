@@ -34,17 +34,12 @@ def on_message(ws, message):
     print(message)
     params = json.loads(message)
     if "x" in params and "y" in params and "id" in params:
-        x =  params["x"]
-        y =  params["y"]
+        x =  str(params["x"]).zfill(2)
+        y =  str(params["y"]).zfill(2)
         id = params["id"]
         filename = '/tmp/'+id+".jpg"
-        if x >= 0 and x <= 3:
-            sercommand = "x:" + str(x) + "\n"
-            ser.write(bytes(sercommand, 'UTF-8'))
-        sleep(5)
-        if y >= 0 and y <= 5:
-            sercommand = "y:" + str(y) + "\n"
-            ser.write(bytes(sercommand, 'UTF-8'))
+        sercommand = x + ":" + y + "\n"
+        ser.write(bytes(sercommand, 'UTF-8'))
         pixels_on()
         camera.start_preview()
         sleep(5)
