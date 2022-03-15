@@ -19,6 +19,7 @@ pixels = neopixel.NeoPixel(
 #
 serverURL = "JP-3.local:8080"
 camera = PiCamera()
+camera.resolution = (2592, 1944)
 
 # Serial init:
 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
