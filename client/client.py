@@ -40,6 +40,7 @@ def on_message(ws, message):
         filename = '/tmp/'+id+".jpg"
         sercommand = x + ":" + y + "\n"
         ser.write(bytes(sercommand, 'UTF-8'))
+        sleep(10)
         pixels_on()
         camera.start_preview()
         sleep(5)
