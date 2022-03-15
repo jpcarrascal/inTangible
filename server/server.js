@@ -34,15 +34,13 @@ wss.on('connection', (ws, req) => {
 
   ws.on('message', message => {
     console.log(`Received message => ${message}`);
-    let inCache = false;
-    if(!inCache) {
-      let arr = message.toString().split(":");
-      let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
-      ws.send(command);
-    }
+    let arr = message.toString().split(":").map(x => parseInt(x));
+    let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
+    console.log("Sending to Pi: " + command);
+    ws.send(command);
   });
   const parameters = url.parse(req.url, true);
-  if(parameters.query.id && parameters.query.id == "jp") {
+  if(parameters.query.id && (parameters.query.id == "jp" || parameters.query.id == "pi") ) {
     console.log(parameters.query.id);
     ws.uid = wss.getUniqueID();
     ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);

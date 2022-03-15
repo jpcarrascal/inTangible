@@ -1,7 +1,7 @@
 const socket = new WebSocket('ws://localhost:8080?id=jp');
 
 socket.addEventListener('open', function (event) {
-    socket.send('Hello Server!');
+    //socket.send('Hello Server!');
 });
 
 socket.addEventListener('image', function (event) {
