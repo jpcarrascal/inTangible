@@ -36,12 +36,10 @@ let pi;
 wss.on('connection', (ws, req) => {
   const parameters = url.parse(req.url, true);
   ws.uid = wss.getUniqueID();
-  if(parameters.query.id == "pi") {
-    ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
-    pi = ws;
-  } else if(parameters.query.id == "web") {
-    ws.send('Welcome ' + parameters.query.id + ". UID: " + ws.uid);
-    web = ws;
+  if(parameters.query.id == "pi" || parameters.query.id == "web") {
+    ws.send( JSON.stringify('Welcome ' + parameters.query.id + ". UID: " + ws.uid) );
+    if(parameters.query.id == "web") web = ws;
+    else pi = ws;
   } else {
     console.log("Unknown client. Disconnecting.");
     ws.send('Bye.');
@@ -70,17 +68,20 @@ app.post('/upload-image', async (req, res) => {
           });
           console.log(req.files);
       } else {
+          // Send URL to web app:
           let image = req.files.image;
           image.mv('./cache/' + image.name);
-          res.send({
+          let response = JSON.stringify({
               status: true,
-              message: 'File is uploaded',
+              message: 'image-uploaded',
               data: {
                   name: image.name,
                   mimetype: image.mimetype,
-                  size: image.size
+                  size: image.size,
+                  url: "/cache/" + image.name
               }
           });
+          web.send(response);
       }
   } catch (err) {
       res.status(500).send(err);
