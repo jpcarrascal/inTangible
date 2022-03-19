@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/js', express.static(__dirname + '/public/js/'));
 app.use('/css', express.static(__dirname + '/public/css/'));
 app.use('/images', express.static(__dirname + '/public/images/'));
+app.use('/cache', express.static(__dirname + '/public/cache/'));
 
 const wss = new WebSocket.Server({ server });
 
@@ -46,13 +47,15 @@ wss.on('connection', (ws, req) => {
     ws.terminate();
   }
 
-  web.on('message', message => {
-    console.log(`Received message => ${message}`);
-    let arr = message.toString().split(":").map(x => parseInt(x));
-    let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
-    console.log("Sending to Pi: " + command);
-    pi.send(command);
-  });
+  if(web) {
+    web.on('message', message => {
+      console.log(`Received message => ${message}`);
+      let arr = message.toString().split(":").map(x => parseInt(x));
+      let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
+      console.log("Sending to Pi: " + command);
+      pi.send(command);
+    });
+  }
 
 });
 
@@ -69,8 +72,9 @@ app.post('/upload-image', async (req, res) => {
           console.log(req.files);
       } else {
           // Send URL to web app:
+          console.log("Image uploaded");
           let image = req.files.image;
-          image.mv('./cache/' + image.name);
+          image.mv('./public/cache/' + image.name);
           let response = JSON.stringify({
               status: true,
               message: 'image-uploaded',

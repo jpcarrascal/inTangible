@@ -21,8 +21,7 @@ socket.addEventListener('message', function (event) {
 });
 
 function tableCreate() {
-    const body = document.body,
-          tbl = document.createElement('table');
+    const tbl = document.getElementById('controls');
     tbl.style.width = '100px';
     tbl.style.border = '1px solid black';
     tbl.style.borderCollapse = 'collapse';
@@ -37,7 +36,6 @@ function tableCreate() {
         td.classList.add("pos-button");
       }
     }
-    body.appendChild(tbl);
     var css = 'table td:hover{ background-color: #44ff44; }';
     var style = document.createElement('style');
     if (style.styleSheet) {
