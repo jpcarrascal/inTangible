@@ -75,7 +75,7 @@ app.post('/upload-image', async (req, res) => {
           console.log("Image uploaded");
           let image = req.files.image;
           image.mv('./public/cache/' + image.name);
-          let response = JSON.stringify({
+          let message = JSON.stringify({
               status: true,
               message: 'image-uploaded',
               data: {
@@ -85,7 +85,8 @@ app.post('/upload-image', async (req, res) => {
                   url: "/cache/" + image.name
               }
           });
-          web.send(response);
+          web.send(message);
+          res.status(200).send();
       }
   } catch (err) {
       res.status(500).send(err);
