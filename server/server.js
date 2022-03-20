@@ -38,7 +38,7 @@ wss.on('connection', (ws, req) => {
   const parameters = url.parse(req.url, true);
   ws.uid = wss.getUniqueID();
   if(parameters.query.id == "pi" || parameters.query.id == "web") {
-    ws.send( JSON.stringify('Welcome ' + parameters.query.id + ". UID: " + ws.uid) );
+    //ws.send( JSON.stringify('Welcome ' + parameters.query.id + ". UID: " + ws.uid) );
     if(parameters.query.id == "web") web = ws;
     else pi = ws;
   } else {

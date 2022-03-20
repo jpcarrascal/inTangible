@@ -14,7 +14,7 @@ pixel_pin = board.D18
 num_pixels = 12
 ORDER = neopixel.RGB
 pixels = neopixel.NeoPixel(
-    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
+    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER 
 )
 #
 serverURL = "JP-3.local:8080"
@@ -50,8 +50,9 @@ def on_message(ws, message):
         pixels_off()
         with open(filename, 'rb') as f:
             r = requests.post("http://"+serverURL+'/upload-image', files={"image": f})
+        print("Done uploading image.")
     else:
-        print("Error in incoming message")
+        print("Error in incoming message.")
 
 def on_error(ws, error):
     print(error)
@@ -102,6 +103,7 @@ def rainbow():
 
 def pixels_on():
     option = random.randrange(0, 5)
+    option = 9
     if option == 0:
         pixels.fill((255, 0, 0))
         pixels.show()
@@ -116,6 +118,8 @@ def pixels_on():
         pixels.show()
     elif option == 4:
         rainbow()
+    else:
+        pixels.fill(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255))
 
 def pixels_off():
     pixels.fill((0, 0, 0))
