@@ -49,8 +49,8 @@ def on_message(ws, message):
         camera.stop_preview()
         pixels_off()
         with open(filename, 'rb') as f:
-            r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, headers={'Connection':'close'})
-            r.close()
+            r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
+        print(r)
         print("Done uploading image.")
     else:
         print("Error in incoming message.")
