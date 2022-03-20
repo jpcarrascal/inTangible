@@ -119,7 +119,8 @@ def pixels_on():
     elif option == 4:
         rainbow()
     else:
-        pixels.fill(random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255))
+        pixels.fill((random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255)))
+        pixels.show()
 
 def pixels_off():
     pixels.fill((0, 0, 0))
