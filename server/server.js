@@ -72,9 +72,10 @@ app.post('/upload-image', async (req, res) => {
           console.log(req.files);
       } else {
           // Send URL to web app:
-          console.log("Image uploaded");
           let image = req.files.image;
-          image.mv('./public/cache/' + image.name);
+          console.log("Image uploaded: " + image.name);
+          image.mv(__dirname + '/public/cache/' + image.name);
+          console.log("moved..")
           let message = JSON.stringify({
               status: true,
               message: 'image-uploaded',
@@ -89,6 +90,7 @@ app.post('/upload-image', async (req, res) => {
           res.status(200).send();
       }
   } catch (err) {
+      console.log(err);
       res.status(500).send(err);
   }
 });

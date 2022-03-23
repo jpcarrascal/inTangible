@@ -49,7 +49,6 @@ def rainbow():
 
 def pixels_on():
     option = random.randrange(0, 5)
-    option = 9
     if option == 0:
         pixels.fill((255, 0, 0))
         pixels.show()
