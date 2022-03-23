@@ -38,10 +38,9 @@ def on_message(ws, message):
             sleep(1)              # Sleep (or inWaiting() doesn't give the correct value)
             data_left = ser.in_waiting  # Get the number of characters ready to be read
             tdata += ser.read(data_left) # Do the read and combine it with the first character
-            tdata = tdata.decode('utf-8')
-            print(tdata)
-            if tdata == "done":
-                print(tdata)
+            message = tdata.decode('utf-8')
+            print(message)
+            if message == "done":
                 break
         neopixel_functions.pixels_on()
         camera.start_preview()
