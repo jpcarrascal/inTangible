@@ -39,7 +39,8 @@ def on_message(ws, message):
             data_left = ser.in_waiting  # Get the number of characters ready to be read
             tdata += ser.read(data_left) # Do the read and combine it with the first character
             tdata = tdata.decode('utf-8')
-            if len(tdata) == "done":
+            print(tdata)
+            if tdata == "done":
                 print(tdata)
                 break
         neopixel_functions.pixels_on()
