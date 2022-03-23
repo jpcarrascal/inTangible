@@ -7,7 +7,6 @@ from time import sleep
 import json
 import requests
 import neopixel_functions
-import random
 import sys
 
 serverURL = "JP-3.local:8080"
@@ -42,12 +41,12 @@ def on_message(ws, message):
             print(tdata)
             if len(tdata) > 1:
                 break
-        pixels_on()
+        neopixel_functions.pixels_on()
         camera.start_preview()
         sleep(5)
         camera.capture(filename)
         camera.stop_preview()
-        pixels_off()
+        neopixel_functions.pixels_off()
         with open(filename, 'rb') as f:
             r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
         print(r)
