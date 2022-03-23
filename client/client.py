@@ -39,6 +39,7 @@ def on_message(ws, message):
             data_left = ser.in_waiting  # Get the number of characters ready to be read
             tdata += ser.read(data_left) # Do the read and combine it with the first character
             message = tdata.decode('utf-8')
+            print(message)
             if message.find("done") != -1:
                 print(message)
                 break
