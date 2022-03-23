@@ -8,6 +8,7 @@ import json
 import requests
 import neopixel_functions
 import random
+import sys
 
 serverURL = "JP-3.local:8080"
 camera = PiCamera()
@@ -49,6 +50,7 @@ def on_message(ws, message):
 
 def on_error(ws, error):
     print(error)
+    sys.exit()
 
 def on_close(ws, close_status_code, close_msg):
     print("### closed ###")
