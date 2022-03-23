@@ -43,6 +43,9 @@ def on_message(ws, message):
             if message.find("done") != -1:
                 print(message)
                 break
+            if message.find("Wrong") != -1:
+                print(message)
+                return -1
         neopixel_functions.pixels_on()
         camera.start_preview()
         sleep(5)
