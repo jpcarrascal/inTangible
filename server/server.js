@@ -75,7 +75,6 @@ app.post('/upload-image', async (req, res) => {
           let image = req.files.image;
           console.log("Image uploaded: " + image.name);
           image.mv(__dirname + '/public/cache/' + image.name);
-          console.log("moved..")
           let message = JSON.stringify({
               status: true,
               message: 'image-uploaded',

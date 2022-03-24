@@ -22,15 +22,14 @@ socket.addEventListener('message', function (event) {
 
 function tableCreate() {
     const tbl = document.getElementById('controls');
-    tbl.style.width = '100px';
     tbl.style.border = '1px solid black';
     tbl.style.borderCollapse = 'collapse';
   
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 4; i >= 0; i--) {
       const tr = tbl.insertRow();
       for (let j = 0; j < 4; j++) {
         const td = tr.insertCell();
-        td.appendChild(document.createTextNode(`${i}:${j}`));
+        td.appendChild(document.createTextNode(`${j}:${i}`));
         td.style.border = '1px solid black';
         td.style.cursor = 'pointer';
         td.classList.add("pos-button");
