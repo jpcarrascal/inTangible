@@ -6,7 +6,7 @@ ser.setDTR(False)
 ser.flushInput()
 ser.setDTR(True)
 time.sleep(5)
-ser.write(b"2:2\n")
+ser.write(b"02:02\n")
 with ser:
     while True:
         print(ser.readline())
