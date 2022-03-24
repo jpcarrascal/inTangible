@@ -5,7 +5,7 @@ socket.addEventListener('open', function (event) {
 });
 
 socket.addEventListener('image', function (event) {
-    console.log('Image URL: ', event.data);
+    console.log('Image URL: ', event.data.url);
 });
 
 socket.addEventListener('message', function (event) {
@@ -13,6 +13,7 @@ socket.addEventListener('message', function (event) {
         let message = JSON.parse(event.data);
         if(message.status = true && message.message == "image-uploaded") {
             document.getElementById("output").setAttribute("src",message.data.url);
+            setCookie("imageURL", message.data.url);
         }
     } catch {
         console.log("Response is not JSON.")
@@ -35,23 +36,43 @@ function tableCreate() {
         td.classList.add("pos-button");
       }
     }
-    var css = 'table td:hover{ background-color: #44ff44; }';
-    var style = document.createElement('style');
-    if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-    document.getElementsByTagName('head')[0].appendChild(style);
 }
   
 tableCreate();
+if(getCookie("imageURL")) {
+    document.getElementById("output").setAttribute("src",getCookie("imageURL"));
+}
 
 document.querySelectorAll(".pos-button").forEach( elem => {
     elem.addEventListener("click", function() {
-        //message = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() })
+        document.querySelectorAll(".pos-button").forEach( elem2 => {
+            elem2.classList.remove("selected");
+        });
+        elem.classList.add("selected");
         console.log(elem.textContent);
         socket.send(elem.textContent);
     })
 });
 
+function setCookie(name, val, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (val || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
