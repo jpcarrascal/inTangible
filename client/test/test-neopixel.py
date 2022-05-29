@@ -50,7 +50,7 @@ def rainbow():
         pixels[i] = wheel(pixel_index & 255)
     pixels.show()
 
-
+print(len(sys.argv))
 if len(sys.argv) == 4:
     color = (int(sys.argv[2]), int(sys.argv[1]), int(sys.argv[3]))
     pixels.fill(color)
