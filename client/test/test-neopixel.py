@@ -2,6 +2,7 @@ import time
 import board
 import neopixel
 import random
+import sys
 
 pixel_pin = board.D18
 num_pixels = 12
@@ -49,21 +50,26 @@ def rainbow():
         pixels[i] = wheel(pixel_index & 255)
     pixels.show()
 
-option = random.randrange(0, 5)
-if option == 0:
-    pixels.fill((255, 0, 0))
-    pixels.show()
-elif option == 1:
-    pixels.fill((0, 255, 0))
-    pixels.show()
-elif option == 2:
-    pixels.fill((0, 0, 255))
-    pixels.show()
-elif option == 3:
-    pixels.fill((55, 55, 55))
-    pixels.show()
-elif option == 4:
-    rainbow()
+
+if len(sys.argv) == 4:
+    color = (int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
+    pixels.fill(color)
+else:
+    option = random.randrange(0, 5)
+    if option == 0:
+        pixels.fill((255, 0, 0))
+        pixels.show()
+    elif option == 1:
+        pixels.fill((0, 255, 0))
+        pixels.show()
+    elif option == 2:
+        pixels.fill((0, 0, 255))
+        pixels.show()
+    elif option == 3:
+        pixels.fill((55, 55, 55))
+        pixels.show()
+    elif option == 4:
+        rainbow()
 
 '''
 while True:
