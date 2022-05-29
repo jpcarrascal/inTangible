@@ -14,5 +14,5 @@ if len(sys.argv) > 1:
 else:
     ser.write(b"01:01\n")
 with ser:
-    while True:
-        print(ser.readline())
+    #while True:
+    print(ser.readline())
