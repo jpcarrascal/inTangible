@@ -1,4 +1,4 @@
-#include <FlexyStepper2.h>
+#include "FlexyStepper2.h"
 
 const int Z_STEP_PIN = 3;
 const int Z_DIR_PIN = 2;
@@ -21,6 +21,8 @@ const float xMult = 3.2;
 const float yMult = -16;
 const int xMax = 250;
 const int yMax = 250;
+const int xMaxmm = 241;
+const int yMaxmm = 221;
 
 const int maxXpos = 5;
 const int maxYpos = 5;
@@ -133,20 +135,41 @@ String convertToString(char* a, int size)
 }
 
 void parseCommand(int charsRead) {
-  if(charsRead == commandLength) {
-    String command = convertToString(receivedChars, commandLength);
-    if(command[2] == ':') {
-      int destination;
+  if(charsRead == 5 || charsRead == 7) {
+    String command = convertToString(receivedChars, charsRead);
+    if(charsRead == 5 && command[2] == ':') {
+      int destinationX, destinationY;
       Serial.print("Command received: ");
       Serial.println(command);
       int xPos = command.substring(0, 2).toInt();
       int yPos = command.substring(3, 5).toInt();
       if(xPos < maxXpos && yPos < maxYpos) {
-          destination = (int) (yPos * (yMax / 5));
-          yStepper.moveToPositionInMillimeters(destination * yMult);
-          destination = (int) (xPos * (xMax / 5) + 25);
-          xStepper.moveToPositionInMillimeters(destination * xMult);
-          Serial.println("done");
+          destinationX = (int) (xPos * (xMax / 5) + 25);
+          destinationY = (int) (yPos * (yMax / 5));
+          yStepper.moveToPositionInMillimeters(destinationY * yMult);
+          xStepper.moveToPositionInMillimeters(destinationX * xMult);
+          Serial.print("Destination: x: ");
+          Serial.print(destinationX);
+          Serial.print("mm, y: ");
+          Serial.print(destinationY);
+          Serial.println("mm - done");
+      } else {
+        Serial.println("Wrong command");
+      }
+    } else if(charsRead == 7 && command[3] == ';') {
+      int destinationX, destinationY;
+      Serial.print("Command received: ");
+      Serial.println(command);
+      float xPos = (float) command.substring(0, 3).toInt();
+      float yPos = (float) command.substring(4, 7).toInt();
+      if(xPos < xMaxmm && yPos < yMaxmm ) {
+          yStepper.moveToPositionInMillimeters(yPos * yMult);
+          xStepper.moveToPositionInMillimeters(xPos * xMult);
+          Serial.print("Destination: x: ");
+          Serial.print(xPos);
+          Serial.print("mm, y: ");
+          Serial.print(yPos);
+          Serial.println("mm - done");
       } else {
         Serial.println("Wrong command");
       }
