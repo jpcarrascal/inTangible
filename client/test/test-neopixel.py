@@ -58,18 +58,15 @@ else:
     option = random.randrange(0, 5)
     if option == 0:
         pixels.fill((255, 0, 0))
-        pixels.show()
     elif option == 1:
         pixels.fill((0, 255, 0))
-        pixels.show()
     elif option == 2:
         pixels.fill((0, 0, 255))
-        pixels.show()
     elif option == 3:
         pixels.fill((55, 55, 55))
-        pixels.show()
     elif option == 4:
         rainbow()
+pixels.show()
 
 '''
 while True:
