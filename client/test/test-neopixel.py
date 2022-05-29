@@ -51,9 +51,9 @@ def rainbow():
     pixels.show()
 
 
-if len(sys.argv) == 4:
-    color = (int(sys.argv[2]), int(sys.argv[1]), int(sys.argv[3]))
-    pixels.fill(color)
+if len(sys.argv) == 5:
+    color = (int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]))
+    pixels[sys.argv[2]] = color
 else:
     option = random.randrange(0, 5)
     if option == 0:

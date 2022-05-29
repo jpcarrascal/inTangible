@@ -31,6 +31,8 @@ wss.getUniqueID = function () {
   return s4() + s4() + '-' + s4();
 };
 
+xValues = [60, 75, 90, 105, 120, 135, 150, 165, 180];
+yValues = [60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210];
 
 let web;
 let pi;
