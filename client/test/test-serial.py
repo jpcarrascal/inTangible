@@ -9,8 +9,8 @@ ser.flushInput()
 ser.setDTR(True)
 time.sleep(5)
 if len(sys.argv) > 1:
-    command = bytes(sys.argv[1] + "\n")
-    ser.write(command,'UTF-8')
+    command = bytes(sys.argv[1] + "\n",'UTF-8')
+    ser.write(command)
 else:
     ser.write(b"01:01\n")
 with ser:
