@@ -52,10 +52,13 @@ def on_message(ws, message):
         camera.capture(filename)
         camera.stop_preview()
         neopixel_functions.pixels_off()
-        with open(filename, 'rb') as f:
-            r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
-        print(r)
-        print("Done uploading image.")
+        try:
+            with open(filename, 'rb') as f:
+                r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
+            print(r)
+            print("Done uploading image.")
+        except:
+            print("Error when calling /upload-image.")
     else:
         print("Error in incoming message.")
 

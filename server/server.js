@@ -39,7 +39,8 @@ wss.on('connection', (ws, req) => {
   ws.uid = wss.getUniqueID();
   if(parameters.query.id == "pi" || parameters.query.id == "web") {
     //ws.send( JSON.stringify('Welcome ' + parameters.query.id + ". UID: " + ws.uid) );
-    if(parameters.query.id == "web") web = ws;
+    if(parameters.query.id == "web")
+      web = ws;
     else pi = ws;
   } else {
     console.log("Unknown client. Disconnecting.");
