@@ -52,7 +52,7 @@ def rainbow():
 
 
 if len(sys.argv) == 4:
-    color = (int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]))
+    color = (int(sys.argv[2]), int(sys.argv[1]), int(sys.argv[3]))
     pixels.fill(color)
 else:
     option = random.randrange(0, 5)
