@@ -47,6 +47,7 @@ def on_message(ws, message):
                 print(message)
                 return -1
         if "c" in params:
+            c = str(params["c"])
             neopixel_functions.pixels_on(c)
         else:
             neopixel_functions.pixels_on()
