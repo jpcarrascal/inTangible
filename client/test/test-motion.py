@@ -20,6 +20,7 @@ if len(sys.argv) > 1:
     command = bytes(sys.argv[1] + "\n",'UTF-8')
     ser.write(command)
 else:
+    comm = ""
     #ser.write(b"01:01\n")
     with ser:
         while comm != "exit":
