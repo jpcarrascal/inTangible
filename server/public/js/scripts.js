@@ -46,7 +46,7 @@ if(getCookie("imageURL")) {
 }
 
 document.querySelectorAll(".pos-button").forEach( elem => {
-    elem.addEventListener("mouseup", function() {
+    elem.addEventListener("click", function() {
         document.querySelectorAll(".pos-button").forEach( elem2 => {
             elem2.classList.remove("selected");
         });
