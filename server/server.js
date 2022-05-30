@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+var currentTid = "";
 
 app.use(fileUpload({
   createParentPath: true
@@ -54,14 +55,15 @@ wss.on('connection', (ws, req) => {
   if(web) {
     web.on('message', message => {
       console.log(`Received message => ${message}`);
-      //let arr = message.toString().split(";").map(x => parseInt(x));
       let data = JSON.parse(message);
-      let command = JSON.stringify({ x: data.x, y: data.y, c: data.c, id: wss.getUniqueID() });
-      console.log("Sending to Pi: " + command);
-      try {
-        pi.send(command); 
-      } catch (error) {
-        console.log("ERROR: Pi not connected!")
+      if(data.tid != currentTid) {
+        currentTid = data.tid;
+        console.log("Sending to Pi: " + data);
+        try {
+          pi.send(command); 
+        } catch (error) {
+          console.log("ERROR: Pi not connected!")
+        }
       }
     });
   }

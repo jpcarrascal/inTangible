@@ -115,7 +115,7 @@ document.querySelectorAll(".pos-button").forEach( elem => {
         var x = elem.textContent.split(";")[0];
         var y = elem.textContent.split(";")[1];
         var c = R.random_int(0,4)
-        socket.send( JSON.stringify({c: c, x: x, y: y}) );
+        socket.send( JSON.stringify({c: c, x: x, y: y, tid: tokenData.tokenId}) );
     });
 });
 
@@ -123,7 +123,7 @@ document.querySelector("#random").addEventListener("click", function() {
   var x = xValues[ R.random_int(0, xValues.length-1) ];
   var y = yValues[ R.random_int(0, yValues.length-1) ];
   var c = R.random_int(0,4);
-  var message = JSON.stringify({c: c, x: x, y: y});
+  var message = JSON.stringify({c: c, x: x, y: y, tid: tokenData.tokenId});
   console.log(">>> Requesting: " + message);
   socket.send( message );
   document.querySelectorAll(".pos-button").forEach( elem => {

@@ -21,6 +21,7 @@ ser.flushInput()
 ser.setDTR(True)
 sleep(5)
 #
+
 rel.safe_read()
 
 def on_message(ws, message):
@@ -29,8 +30,8 @@ def on_message(ws, message):
     if "x" in params and "y" in params and "id" in params:
         x =  str(params["x"]).zfill(3)
         y =  str(params["y"]).zfill(3)
-        id = params["id"]
-        filename = '/tmp/'+id+".jpg"
+        tid = str(params["tid"])
+        filename = '/tmp/' + tid + ".jpg"
         sercommand = x + ";" + y + "\n"
         ser.write(bytes(sercommand, 'UTF-8'))
         while 1:
@@ -47,7 +48,7 @@ def on_message(ws, message):
                 print(message)
                 return -1
         if "c" in params:
-            c = str(params["c"])
+            c = int(params["c"])
             neopixel_functions.pixels_on(c)
         else:
             neopixel_functions.pixels_on()
