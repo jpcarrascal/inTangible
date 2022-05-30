@@ -58,12 +58,15 @@ wss.on('connection', (ws, req) => {
       let data = JSON.parse(message);
       if(data.tid != currentTid) {
         currentTid = data.tid;
-        console.log("Sending to Pi: " + data);
+        console.log("Sending to Pi: " + data.toString());
         try {
-          pi.send(command); 
+          pi.send(message); 
         } catch (error) {
-          console.log("ERROR: Pi not connected!")
+          console.log("ERROR: Pi not connected! " + error)
         }
+      } else {
+        // check cache
+        console.log("cached!");
       }
     });
   }

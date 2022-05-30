@@ -120,6 +120,7 @@ document.querySelectorAll(".pos-button").forEach( elem => {
 });
 
 document.querySelector("#random").addEventListener("click", function() {
+  tokenData = genTokenData(123);
   var x = xValues[ R.random_int(0, xValues.length-1) ];
   var y = yValues[ R.random_int(0, yValues.length-1) ];
   var c = R.random_int(0,4);

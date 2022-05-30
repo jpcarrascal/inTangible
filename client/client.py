@@ -27,7 +27,7 @@ rel.safe_read()
 def on_message(ws, message):
     print(message)
     params = json.loads(message)
-    if "x" in params and "y" in params and "id" in params:
+    if "x" in params and "y" in params and "c" in params and "tid" in params:
         x =  str(params["x"]).zfill(3)
         y =  str(params["y"]).zfill(3)
         tid = str(params["tid"])
