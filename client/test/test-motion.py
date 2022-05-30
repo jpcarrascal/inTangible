@@ -24,8 +24,8 @@ else:
     #ser.write(b"01:01\n")
     with ser:
         while comm != "exit":
+            comm = input("Serial command: ")
             if comm != "exit":
-                comm = input("Serial command: ")
                 command = bytes(comm + "\n",'UTF-8')
                 ser.write(command)
                 print(ser.readline())
