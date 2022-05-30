@@ -31,3 +31,4 @@ else:
                 print(ser.readline())
             else:
                 print("Exiting...")
+                ser.close()
