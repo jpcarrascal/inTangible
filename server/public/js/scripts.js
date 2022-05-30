@@ -92,7 +92,8 @@ function tableCreate() {
       const tr = tbl.insertRow();
       for (let j = 0; j < 9; j++) {
         const td = tr.insertCell();
-        td.appendChild(document.createTextNode(`${xValues[j]};${yValues[i]}`));
+        //td.appendChild(document.createTextNode(`${xValues[j]};${yValues[i]}`));
+        td.setAttribute("cell",`${xValues[j]};${yValues[i]}`);
         td.style.border = '1px solid black';
         td.style.cursor = 'pointer';
         td.classList.add("pos-button");
@@ -111,9 +112,9 @@ document.querySelectorAll(".pos-button").forEach( elem => {
             elem2.classList.remove("selected");
         });
         elem.classList.add("selected");
-        console.log(">>> Requesting coordinates: " + elem.textContent);
-        var x = elem.textContent.split(";")[0];
-        var y = elem.textContent.split(";")[1];
+        console.log(">>> Requesting coordinates: " + elem.getAttribute("cell"));
+        var x = elem.getAttribute("cell").split(";")[0];
+        var y = elem.getAttribute("cell").split(";")[1];
         var c = R.random_int(0,4)
         socket.send( JSON.stringify({c: c, x: x, y: y, tid: tokenData.tokenId}) );
     });
@@ -129,7 +130,7 @@ document.querySelector("#random").addEventListener("click", function() {
   socket.send( message );
   document.querySelectorAll(".pos-button").forEach( elem => {
     var text = x+";"+y;
-    if(elem.textContent == text) elem.classList.add("selected");
+    if(elem.getAttribute("cell") == text) elem.classList.add("selected");
     else elem.classList.remove("selected");
   });
 });
