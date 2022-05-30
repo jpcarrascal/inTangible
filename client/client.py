@@ -47,7 +47,7 @@ def on_message(ws, message):
                 print(message)
                 return -1
         neopixel_functions.pixels_on()
-        camera.iso = 100
+        camera.iso = 200
         camera.start_preview()
         sleep(3)
         camera.capture(filename)
