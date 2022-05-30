@@ -47,25 +47,22 @@ def rainbow():
         pixels[i] = wheel(pixel_index & 255)
     pixels.show()
 
-def pixels_on():
-    option = random.randrange(0, 5)
+def pixels_on(option=-1):
+    if option < 0 or option > 4:
+        option = random.randrange(0, 4)
     if option == 0:
         pixels.fill((255, 0, 0))
-        pixels.show()
     elif option == 1:
         pixels.fill((0, 255, 0))
-        pixels.show()
     elif option == 2:
         pixels.fill((0, 0, 255))
-        pixels.show()
     elif option == 3:
         pixels.fill((55, 55, 55))
-        pixels.show()
     elif option == 4:
         rainbow()
     else:
         pixels.fill((random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255)))
-        pixels.show()
+    pixels.show()
 
 def pixels_off():
     pixels.fill((0, 0, 0))
