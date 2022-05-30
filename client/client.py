@@ -80,13 +80,19 @@ def on_open(ws):
     print("Connection open")
 
 if __name__ == "__main__":
-    websocket.enableTrace(True)
-    ws = websocket.WebSocketApp("ws://" + serverURL + "?id=pi",
-                              on_open=on_open,
-                              on_message=on_message,
-                              on_error=on_error,
-                              on_close=on_close)
+    while True:
+        try:
+            websocket.enableTrace(True)
+            ws = websocket.WebSocketApp("ws://" + serverURL + "?id=pi",
+                                    on_open=on_open,
+                                    on_message=on_message,
+                                    on_error=on_error,
+                                    on_close=on_close)
 
-    ws.run_forever(dispatcher=rel)  # Set dispatcher to automatic reconnection
-    rel.signal(2, rel.abort)  # Keyboard Interrupt
-    rel.dispatch()
+            ws.run_forever(dispatcher=rel)  # Set dispatcher to automatic reconnection
+            rel.signal(2, rel.abort)  # Keyboard Interrupt
+            rel.dispatch()
+        except Exception as e:
+            print("Websocket connection Error: {0}".format(e))
+        print("Reconnecting websocket  after 5 sec")
+        sleep(5)
