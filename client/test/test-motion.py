@@ -2,13 +2,7 @@ import serial
 import time
 import sys
 
-#ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
-ser = serial.Serial()
-ser.port = '/dev/ttyUSB0'
-ser.baudrate = 115200
-ser.timeout = 1
-ser.setDTR(False)
-ser.open()
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
 #ser.setDTR(False)
 ###ser.reset_input_buffer()
 #ser.flushInput()
