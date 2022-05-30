@@ -91,6 +91,8 @@ if __name__ == "__main__":
             ws.run_forever(dispatcher=rel)  # Set dispatcher to automatic reconnection
             rel.signal(2, rel.abort)  # Keyboard Interrupt
             rel.dispatch()
+        except KeyboardInterrupt:
+            print("Exiting...")
         except:
             print("Websocket connection Error:")
         print("Reconnecting websocket  after 5 sec")

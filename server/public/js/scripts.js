@@ -61,6 +61,9 @@ const socket = new WebSocket('ws://localhost:8080?id=web');
 const xValues = [60, 75, 90, 105, 120, 135, 150, 165, 180];
 const yValues = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210];
 let R = new Random();
+const NUM_CELLS = 135;
+const cellId = R.random_num(0,NUM_CELLS-1);
+
 
 socket.addEventListener('open', function (event) {
     //socket.send('Hello Server!');
@@ -94,8 +97,9 @@ function tableCreate() {
         const td = tr.insertCell();
         //td.appendChild(document.createTextNode(`${xValues[j]};${yValues[i]}`));
         td.setAttribute("cell",`${xValues[j]};${yValues[i]}`);
-        td.style.border = '1px solid black';
-        td.style.cursor = 'pointer';
+        var div = document.createElement('div');
+        div.classList.add("cell");
+        td.appendChild(div);
         td.classList.add("pos-button");
       }
     }
