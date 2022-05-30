@@ -20,7 +20,10 @@ if len(sys.argv) > 1:
     command = bytes(sys.argv[1] + "\n",'UTF-8')
     ser.write(command)
 else:
-    ser.write(b"01:01\n")
-with ser:
-    #while True:
-    print(ser.readline())
+    #ser.write(b"01:01\n")
+    with ser:
+        while comm != "exit":
+            comm = input("Serial command: ")
+            command = bytes(comm + "\n",'UTF-8')
+            ser.write(command)
+            print(ser.readline())
