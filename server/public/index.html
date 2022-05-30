@@ -1,17 +1,36 @@
 <html>
     <head>
         <style>
+            table td {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 8px;
+                width: 30px;
+                height: 30px;
+                overflow: hidden;
+            }
             table td:hover {
                 background-color: lightblue;
             }
             .selected {
                 background-color: greenyellow;
             }
+
+            #container {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+            }
         </style>
     </head>
     <body>
-        <table id="controls"></table>
-        <img id="output" src="#" style="width: 100%";/>
+        <div id="container">
+            <div>
+                <table id="controls"></table>
+            </div>
+            <div>
+                <img id="output" src="#" style="width: 80%";/>
+            </div>
+        </div>
     </body>
     <script src="/js/scripts.js"></script>
 </html>

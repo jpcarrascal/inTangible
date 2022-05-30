@@ -27,11 +27,11 @@ def on_message(ws, message):
     print(message)
     params = json.loads(message)
     if "x" in params and "y" in params and "id" in params:
-        x =  str(params["x"]).zfill(2)
-        y =  str(params["y"]).zfill(2)
+        x =  str(params["x"]).zfill(3)
+        y =  str(params["y"]).zfill(3)
         id = params["id"]
         filename = '/tmp/'+id+".jpg"
-        sercommand = x + ":" + y + "\n"
+        sercommand = x + ";" + y + "\n"
         ser.write(bytes(sercommand, 'UTF-8'))
         while 1:
             tdata = ser.read()           # Wait forever for anything
@@ -70,7 +70,7 @@ def on_close(ws, close_status_code, close_msg):
     print("### closed ###")
 
 def on_open(ws):
-    print("Opened connection")
+    print("Connection open")
 
 if __name__ == "__main__":
     websocket.enableTrace(True)

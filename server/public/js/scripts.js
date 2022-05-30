@@ -1,4 +1,6 @@
 const socket = new WebSocket('ws://localhost:8080?id=web');
+const xValues = [60, 75, 90, 105, 120, 135, 150, 165, 180];
+const yValues = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210];
 
 socket.addEventListener('open', function (event) {
     //socket.send('Hello Server!');
@@ -26,11 +28,11 @@ function tableCreate() {
     tbl.style.border = '1px solid black';
     tbl.style.borderCollapse = 'collapse';
   
-    for (let i = 4; i >= 0; i--) {
+    for (let i = 14; i >= 0; i--) {
       const tr = tbl.insertRow();
-      for (let j = 0; j < 4; j++) {
+      for (let j = 0; j < 9; j++) {
         const td = tr.insertCell();
-        td.appendChild(document.createTextNode(`${j}:${i}`));
+        td.appendChild(document.createTextNode(`${xValues[j]};${yValues[i]}`));
         td.style.border = '1px solid black';
         td.style.cursor = 'pointer';
         td.classList.add("pos-button");

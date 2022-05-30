@@ -31,9 +31,6 @@ wss.getUniqueID = function () {
   return s4() + s4() + '-' + s4();
 };
 
-xValues = [60, 75, 90, 105, 120, 135, 150, 165, 180];
-yValues = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210];
-
 let web;
 let pi;
 wss.on('connection', (ws, req) => {
@@ -41,9 +38,13 @@ wss.on('connection', (ws, req) => {
   ws.uid = wss.getUniqueID();
   if(parameters.query.id == "pi" || parameters.query.id == "web") {
     //ws.send( JSON.stringify('Welcome ' + parameters.query.id + ". UID: " + ws.uid) );
-    if(parameters.query.id == "web")
+    if(parameters.query.id == "web") {
       web = ws;
-    else pi = ws;
+      console.log("Web connected!");
+    } else {
+      pi = ws;
+      console.log("Pi connected!");
+    }
   } else {
     console.log("Unknown client. Disconnecting.");
     ws.send('Bye.');
@@ -56,7 +57,11 @@ wss.on('connection', (ws, req) => {
       let arr = message.toString().split(":").map(x => parseInt(x));
       let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
       console.log("Sending to Pi: " + command);
-      pi.send(command);
+      try {
+        pi.send(command); 
+      } catch (error) {
+        console.log("ERROR: Pi not connected!")
+      }
     });
   }
 
