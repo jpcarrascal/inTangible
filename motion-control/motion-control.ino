@@ -139,8 +139,6 @@ void parseCommand(int charsRead) {
     String command = convertToString(receivedChars, charsRead);
     if(charsRead == 5 && command[2] == ':') {
       int destinationX, destinationY;
-      Serial.print("Command received: ");
-      Serial.println(command);
       int xPos = command.substring(0, 2).toInt();
       int yPos = command.substring(3, 5).toInt();
       if(xPos < maxXpos && yPos < maxYpos) {
@@ -148,28 +146,32 @@ void parseCommand(int charsRead) {
           destinationY = (int) (yPos * (yMax / 5));
           yStepper.moveToPositionInMillimeters(destinationY * yMult);
           xStepper.moveToPositionInMillimeters(destinationX * xMult);
+          /*
           Serial.print("Destination: x: ");
           Serial.print(destinationX);
           Serial.print("mm, y: ");
           Serial.print(destinationY);
-          Serial.println("mm - done");
+          Serial.println("mm");
+          */
+          Serial.println("done");
       } else {
         Serial.println("Wrong command");
       }
     } else if(charsRead == 7 && command[3] == ';') {
       int destinationX, destinationY;
-      Serial.print("Command received: ");
-      Serial.println(command);
       float xPos = (float) command.substring(0, 3).toInt();
       float yPos = (float) command.substring(4, 7).toInt();
       if(xPos < xMaxmm && yPos < yMaxmm ) {
           yStepper.moveToPositionInMillimeters(yPos * yMult);
           xStepper.moveToPositionInMillimeters(xPos * xMult);
+          /*
           Serial.print("Destination: x: ");
           Serial.print(xPos);
           Serial.print("mm, y: ");
           Serial.print(yPos);
-          Serial.println("mm - done");
+          Serial.println("mm");
+          */
+          Serial.println("done");
       } else {
         Serial.println("Wrong command");
       }
