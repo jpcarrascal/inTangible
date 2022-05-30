@@ -66,7 +66,16 @@ wss.on('connection', (ws, req) => {
         }
       } else {
         // check cache
-        console.log("cached!");
+        console.log("cached!");        
+        let message = JSON.stringify({
+            status: true,
+            message: 'image-uploaded',
+            source: 'cache',
+            data: {
+                url: "/cache/" + currentTid + ".jpg"
+            }
+        });
+        web.send(message);
       }
     });
   }
@@ -92,6 +101,7 @@ app.post('/upload-image', async (req, res) => {
           let message = JSON.stringify({
               status: true,
               message: 'image-uploaded',
+              source: 'camera',
               data: {
                   name: image.name,
                   mimetype: image.mimetype,

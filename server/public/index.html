@@ -1,13 +1,23 @@
 <html>
     <head>
         <style>
+            body {
+                font-family: sans-serif;
+                color: #777777;
+                background-color: black;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
             table td {
-                font-family: Arial, Helvetica, sans-serif;
                 font-size: 0px;
                 overflow: hidden;
                 padding: 0;
-                border: 1px solid #999999;
+                border: 0;
             }
+
             table td:hover {
                 background-color: lightblue;
             }
@@ -18,29 +28,95 @@
 
             .cell {
                 background-color: transparent;
-                width: 8px;
-                height: 6px;
+                text-align: center;
+                font-size: 8px;
+                color: #777777;
+                width: 14px;
+                height: 12px;
                 display: block;
                 padding: 0;
-                margin: 0;
+                border: 1px solid #777777;
+                border-radius: 2px;
+                transform: scaleY(-1);
             }
 
-            #container {
+            #controls-container {
+                position: absolute;
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
                 width: 100%;
+                z-index: 1;
             }
+
+            .fadeOut {
+                visibility: hidden;
+                opacity: 0;
+                transition: visibility 0s 1.5s, opacity 1.5s linear;
+            }
+
+            .fadeIn {
+                opacity: 1;
+                animation-name: fadeInOpacity;
+                animation-iteration-count: 1;
+                animation-timing-function: ease-in;
+                animation-duration: 1.5s;
+            }
+
+            @keyframes fadeInOpacity {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            #controls-table {
+                transform: scaleY(-1);
+                border: 0;
+            }
+
+            #img-container {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 90%;
+                z-index: 10;
+                overflow: visible;
+            }
+
+            #output-image {
+                visibility: hidden;
+                height: 100%;
+                border-radius: 1vw;
+            }
+
+            #meta {
+                background-color: transparent;
+                position: absolute;
+                bottom: -1.5em;
+                right: 0;
+            }
+
+            #random {
+                display: none;
+            }
+
         </style>
     </head>
     <body>
-        <div id="container">
-            <div>
-                <table id="controls"></table>
-                <button id="random">Random</button>
-            </div>
-            <div>
-                <img id="output" src="#" style="width: 80%";/>
-            </div>
+        <div id="controls-container">
+            <table id="controls-table"></table>
+            <div id="wait-text">Fetching image...</div>
+            <button id="random">Random</button>
+        </div>
+        <div id="img-container">
+                <img id="output-image" src="#" />
+                <div id="meta"></div>
         </div>
     </body>
     <script src="/js/scripts.js"></script>
