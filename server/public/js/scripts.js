@@ -51,7 +51,7 @@ document.querySelectorAll(".pos-button").forEach( elem => {
             elem2.classList.remove("selected");
         });
         elem.classList.add("selected");
-        console.log(elem.textContent);
+        console.log(">>> Requesting coordinates: " + elem.textContent);
         socket.send(elem.textContent);
     })
 });

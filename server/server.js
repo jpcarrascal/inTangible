@@ -54,7 +54,7 @@ wss.on('connection', (ws, req) => {
   if(web) {
     web.on('message', message => {
       console.log(`Received message => ${message}`);
-      let arr = message.toString().split(":").map(x => parseInt(x));
+      let arr = message.toString().split(";").map(x => parseInt(x));
       let command = JSON.stringify({ x: arr[0], y: arr[1], id: wss.getUniqueID() });
       console.log("Sending to Pi: " + command);
       try {

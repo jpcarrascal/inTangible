@@ -35,7 +35,7 @@ def on_message(ws, message):
         ser.write(bytes(sercommand, 'UTF-8'))
         while 1:
             tdata = ser.read()           # Wait forever for anything
-            sleep(1)              # Sleep (or inWaiting() doesn't give the correct value)
+            sleep(2)              # Sleep (or inWaiting() doesn't give the correct value)
             data_left = ser.in_waiting  # Get the number of characters ready to be read
             tdata += ser.read(data_left) # Do the read and combine it with the first character
             message = tdata.decode('utf-8')
@@ -47,8 +47,9 @@ def on_message(ws, message):
                 print(message)
                 return -1
         neopixel_functions.pixels_on()
+        camera.iso = 100
         camera.start_preview()
-        sleep(5)
+        sleep(3)
         camera.capture(filename)
         camera.stop_preview()
         neopixel_functions.pixels_off()
