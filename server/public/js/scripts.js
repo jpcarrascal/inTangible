@@ -170,4 +170,4 @@ var timer = setInterval(() => {
   document.getElementById("cell-"+index).style.borderColor = "white";
   index++;
   if(index==NUM_CELLS) index = 0;
-}, 50);
+}, 70);
