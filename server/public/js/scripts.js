@@ -97,23 +97,32 @@ socket.addEventListener('message', function (event) {
           elem.style.borderColor = "#666666";
         });
         document.getElementById("output-image").setAttribute("src",message.data.url);
-        document.getElementById("output-image").style.visibility = "visible";
-        document.getElementById("wait-text").innerText = "Done."
-        document.getElementById("output-image").classList.add("fadeIn");
-        document.getElementById("controls-container").classList.add("fadeOut");
-        console.log(message.source);
-        var sub = meta;
-        if(message.source == "cache")
-          sub += " (cached)";
-        setTimeout(() => {
-          document.getElementById("meta").innerText = sub;
-        }, 1500);
+        loadImage(message.data.url);
       }
     } catch {
         console.log("Response is not JSON.")
     }
     console.log('Message from server ', event.data);
 });
+
+function loadImage(data) {
+  var img = new Image();
+  img.onload = function() {
+      document.getElementById("output-image").src = img.src;
+      document.getElementById("output-image").style.visibility = "visible";
+      document.getElementById("wait-text").innerText = "Done."
+      document.getElementById("output-image").classList.add("fadeIn");
+      document.getElementById("controls-container").classList.add("fadeOut");
+      var sub = meta;
+      if(message.source == "cache")
+        sub += " (cached)";
+      setTimeout(() => {
+        document.getElementById("meta").innerText = sub;
+      }, 1500);
+  };
+
+  img.src = data;
+}
 
 function tableCreate() {
     const tbl = document.getElementById('controls-table');
@@ -137,30 +146,12 @@ function tableCreate() {
   
 tableCreate();
 
-/*
-document.querySelectorAll(".pos-button").forEach( elem => {
-  elem.addEventListener("click", function() {
-    tokenData = genTokenData(123);
-    document.querySelectorAll(".pos-button").forEach( elem2 => {
-        elem2.classList.remove("selected");
-    });
-    elem.classList.add("selected");
-    console.log(">>> Requesting coordinates: " + elem.getAttribute("cell"));
-    var x = elem.getAttribute("cell").split(";")[0];
-    var y = elem.getAttribute("cell").split(";")[1];
-    var c = R.random_int(0,4)
-    socket.send( JSON.stringify({c: c, x: x, y: y, tid: tokenData.tokenId}) );
-  });
-});
-*/
-
 document.querySelector("#random").addEventListener("click", function() {
   captureImage(x, y, c);
 });
 
 function captureImage(x, y, c) {
   var message = JSON.stringify({c: c, x: x, y: y, tid: tokenData.tokenId});
-  console.log(">>> Requesting: " + message);
   socket.send( message );
   document.querySelectorAll(".pos-button").forEach( elem => {
     var text = x+";"+y;
