@@ -64,10 +64,7 @@ const NUM_ROWS = 15;
 const NUM_COLS = 9;
 const NUM_CELLS = NUM_ROWS * NUM_COLS;
 const NUM_LEDS = 12;
-//const cellId = R.random_int(0,NUM_CELLS-1);
-
-const cellId = 0;
-
+const cellId = R.random_int(0,NUM_CELLS-1);
 const meta = `inTangible: ${cellId}/${NUM_CELLS}`;
 const x = (cellId % NUM_COLS) * 15 + 60;
 const y = Math.floor(cellId / NUM_COLS) * 15;
@@ -81,18 +78,13 @@ for(var i=0; i<NUM_LEDS; i++) {
       c[i+j] = [R.random_int(0, 255), R.random_int(0, 255), R.random_int(0, 255)];
   }
 }
-console.log(c);
-
-console.log(`cellid: ${cellId}`)
-console.log(`x: ${x}, y: ${y}`);
 
 socket.addEventListener('open', function (event) {
-    //socket.send('Hello Server!');
     captureImage(x, y, c);
 });
 
 socket.addEventListener('image', function (event) {
-    console.log('Image URL: ', event.data.url);
+    //console.log('Image URL: ', event.data.url);
 });
 
 socket.addEventListener('message', function (event) {

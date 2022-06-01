@@ -8,8 +8,9 @@ import json
 import requests
 import neopixel_functions
 import sys
+import conf
 
-serverURL = "JP-3.local:8080"
+serverURL = conf.serverURL
 camera = PiCamera()
 camera.resolution = (2592, 1944)
 
@@ -27,48 +28,50 @@ rel.safe_read()
 def on_message(ws, message):
     params = json.loads(message)
     print(params)
-    if "x" in params and "y" in params and "c" in params and "tid" in params:
-        x =  str(params["x"]).zfill(3)
-        y =  str(params["y"]).zfill(3)
-        tid = str(params["tid"])
-        filename = '/tmp/' + tid + ".jpg"
-        sercommand = x + ";" + y + "\n"
-        ser.write(bytes(sercommand, 'UTF-8'))
-        while 1:
-            tdata = ser.read()           # Wait forever for anything
-            sleep(2)              # Sleep (or inWaiting() doesn't give the correct value)
-            data_left = ser.in_waiting  # Get the number of characters ready to be read
-            tdata += ser.read(data_left) # Do the read and combine it with the first character
-            message = tdata.decode('utf-8')
-            print(message)
-            if message.find("done") != -1:
+    if "command" in params and params.command == "fetch":
+        if "x" in params and "y" in params and "c" in params and "tid" in params:
+            x =  str(params["x"]).zfill(3)
+            y =  str(params["y"]).zfill(3)
+            tid = str(params["tid"])
+            filename = '/tmp/' + tid + ".jpg"
+            sercommand = x + ";" + y + "\n"
+            ser.write(bytes(sercommand, 'UTF-8'))
+            while 1:
+                tdata = ser.read()           # Wait forever for anything
+                sleep(2)              # Sleep (or inWaiting() doesn't give the correct value)
+                data_left = ser.in_waiting  # Get the number of characters ready to be read
+                tdata += ser.read(data_left) # Do the read and combine it with the first character
+                message = tdata.decode('utf-8')
                 print(message)
-                break
-            if message.find("Wrong") != -1:
-                print(message)
-                return -1
-        if "c" in params:
-            c = params["c"]
-            neopixel_functions.illum(c)
+                if message.find("done") != -1:
+                    print(message)
+                    break
+                if message.find("Wrong") != -1:
+                    print(message)
+                    return -1
+            if "c" in params:
+                c = params["c"]
+                neopixel_functions.illum(c)
+            else:
+                neopixel_functions.rainbow()
+            camera.iso = 200
+            camera.shutter_speed = 50000
+            camera.start_preview()
+            sleep(3)
+            camera.capture(filename)
+            camera.stop_preview()
+            neopixel_functions.pixels_off()
+            try:
+                with open(filename, 'rb') as f:
+                    r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
+                print(r)
+                print("Done uploading image.")
+            except:
+                print("Error when calling /upload-image.")
         else:
-            neopixel_functions.rainbow()
-        camera.iso = 200
-        camera.shutter_speed = 50000
-        camera.start_preview()
-        sleep(3)
-        camera.capture(filename)
-        camera.stop_preview()
-        neopixel_functions.pixels_off()
-        try:
-            with open(filename, 'rb') as f:
-                r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
-            print(r)
-            print("Done uploading image.")
-        except:
-            print("Error when calling /upload-image.")
+            print("Error in incoming message.")
     else:
-        print("Error in incoming message.")
-
+        print("Unknown command.")
 def on_error(ws, error):
     print(error)
     sys.exit()

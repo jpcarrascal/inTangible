@@ -61,7 +61,9 @@ wss.on('connection', (ws, req) => {
         console.log("Sending to Pi: ");
         console.log(data);
         try {
-          pi.send(message); 
+          data.command = "fetch";
+          const sendMessage = JSON.stringify(data);
+          pi.send(sendMessage); 
         } catch (error) {
           console.log("ERROR: Pi not connected! " + error)
         }
