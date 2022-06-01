@@ -18,7 +18,7 @@ pixels = neopixel.NeoPixel(
     pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER 
 )
 
-def pixels_on(option=-1):
+def pixels_on(c):
     for i in range(num_pixels):
         pixels[i] = tuple(c[i])
     pixels.show()
