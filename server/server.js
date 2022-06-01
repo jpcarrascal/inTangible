@@ -58,10 +58,10 @@ wss.on('connection', (ws, req) => {
       let data = JSON.parse(message);
       if(data.tid != currentTid) {
         currentTid = data.tid;
-        console.log("Sending to Pi: ");
-        console.log(data);
         try {
           data.command = "fetch";
+          console.log("Sending to Pi: ");
+          console.log(data);
           const sendMessage = JSON.stringify(data);
           pi.send(sendMessage); 
         } catch (error) {
