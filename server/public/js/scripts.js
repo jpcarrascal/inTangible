@@ -91,6 +91,8 @@ socket.addEventListener('image', function (event) {
 socket.addEventListener('message', function (event) {
     try {
       let message = JSON.parse(event.data);
+      console.log("Image uloaded to server: " + message.data.url);
+      console.log("Loading in browser.");
       if(message.status = true && message.message == "image-uploaded") {
         loadImage(message);
       }
@@ -103,6 +105,7 @@ socket.addEventListener('message', function (event) {
 function loadImage(data) {
   var img = new Image();
   img.onload = function() {
+      console.log("Image loaded in browser.");
       clearInterval(timer);
       document.querySelectorAll(".cell").forEach( elem => {
         elem.style.borderColor = "#666666";
@@ -119,7 +122,6 @@ function loadImage(data) {
         document.getElementById("meta").innerText = sub;
       }, 1500);
   };
-
   img.src = message.data.url;
 }
 
