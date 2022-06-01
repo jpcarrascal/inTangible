@@ -91,7 +91,7 @@ socket.addEventListener('image', function (event) {
 socket.addEventListener('message', function (event) {
     try {
       let message = JSON.parse(event.data);
-      console.log("Image uloaded to server: " + message.data.url);
+      console.log("Image uploaded to server: " + message.data.url);
       console.log("Loading in browser.");
       if(message.status = true && message.message == "image-uploaded") {
         loadImage(message);
@@ -116,13 +116,13 @@ function loadImage(data) {
       document.getElementById("output-image").classList.add("fadeIn");
       document.getElementById("controls-container").classList.add("fadeOut");
       var sub = meta;
-      if(message.source == "cache")
+      if(data.source == "cache")
         sub += " (cached)";
       setTimeout(() => {
         document.getElementById("meta").innerText = sub;
       }, 1500);
   };
-  img.src = message.data.url;
+  img.src = data.data.url;
 }
 
 function tableCreate() {
