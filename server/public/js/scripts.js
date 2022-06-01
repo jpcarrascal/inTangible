@@ -56,7 +56,8 @@ class Random {
   }
 }
 
-const socket = new WebSocket('ws://localhost:8080?id=web');
+//const socket = new WebSocket('ws://localhost:8080?id=web');
+const socket = new WebSocket('ws://intangible-project.azurewebsites.net/?id=web');
 const xValues = [60, 75, 90, 105, 120, 135, 150, 165, 180];
 const yValues = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210];
 let R = new Random();
