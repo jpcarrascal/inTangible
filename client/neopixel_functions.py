@@ -59,6 +59,7 @@ def three(c):
 def illum(c):
     for i in range(num_pixels):
         pixels[i] = tuple(c[i])
+    pixels.show()
 
 def pixels_on(option=-1):
     three()
