@@ -48,10 +48,10 @@ def on_message(ws, message):
                 print(message)
                 return -1
         if "c" in params:
-            c = int(params["c"])
-            neopixel_functions.pixels_on(c)
+            c = params["c"]
+            neopixel_functions.illum(c)
         else:
-            neopixel_functions.pixels_on()
+            neopixel_functions.rainbow()
         camera.iso = 200
         camera.shutter_speed = 50000
         camera.start_preview()

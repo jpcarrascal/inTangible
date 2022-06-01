@@ -10,7 +10,7 @@ function genTokenData(projectNum) {
 }
 let tokenData = genTokenData(123);
 
-tokenData = { hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738", tokenId: "123000456" }
+//tokenData = { hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738", tokenId: "123000456" }
 
 class Random {
   constructor() {
@@ -63,14 +63,25 @@ let R = new Random();
 const NUM_ROWS = 15;
 const NUM_COLS = 9;
 const NUM_CELLS = NUM_ROWS * NUM_COLS;
-const cellId = R.random_int(0,NUM_CELLS-1);
+const NUM_LEDS = 12;
+//const cellId = R.random_int(0,NUM_CELLS-1);
+
+const cellId = 0;
+
 const meta = `inTangible: ${cellId}/${NUM_CELLS}`;
 const x = (cellId % NUM_COLS) * 15 + 60;
 const y = Math.floor(cellId / NUM_COLS) * 15;
 var c = Array();
-for(var i=0; i<9; i++) {
-  c[i] = R.random_int(0, 255);
+var darkPos = R.random_int(0, 11);
+for(var i=0; i<NUM_LEDS; i++) {
+  for(var j=0; j<3; j++) {
+    if(i>= darkPos && i<darkPos+3)
+      c[i+j] = [0,0,0];
+    else
+      c[i+j] = [R.random_int(0, 255), R.random_int(0, 255), R.random_int(0, 255)];
+  }
 }
+console.log(c);
 
 console.log(`cellid: ${cellId}`)
 console.log(`x: ${x}, y: ${y}`);
