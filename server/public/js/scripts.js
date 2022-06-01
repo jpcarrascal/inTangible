@@ -94,6 +94,7 @@ socket.addEventListener('message', function (event) {
       console.log("Image uploaded to server: " + message.data.url);
       console.log("Loading in browser.");
       if(message.status = true && message.message == "image-uploaded") {
+        document.getElementById("wait-text").innerText = "Downloading image..."
         loadImage(message);
       }
     } catch {
@@ -102,10 +103,9 @@ socket.addEventListener('message', function (event) {
     console.log('Message from server ', event.data);
 });
 
-function loadImage(data) {
+function loadImage(message) {
   var img = new Image();
   img.onload = function() {
-      console.log("Image loaded in browser.");
       clearInterval(timer);
       document.querySelectorAll(".cell").forEach( elem => {
         elem.style.borderColor = "#666666";
@@ -115,14 +115,13 @@ function loadImage(data) {
       document.getElementById("wait-text").innerText = "Done."
       document.getElementById("output-image").classList.add("fadeIn");
       document.getElementById("controls-container").classList.add("fadeOut");
-      var sub = meta;
-      if(data.source == "cache")
-        sub += " (cached)";
-      setTimeout(() => {
-        document.getElementById("meta").innerText = sub;
-      }, 1500);
+      if(message.data.source == "cache") {
+        setTimeout(() => {
+          document.getElementById("meta").innerText = "(Cached)";
+        }, 1500);
+      }
   };
-  img.src = data.data.url;
+  img.src = message.data.url;
 }
 
 function tableCreate() {

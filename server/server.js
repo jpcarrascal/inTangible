@@ -73,9 +73,9 @@ wss.on('connection', (ws, req) => {
         let message = JSON.stringify({
             status: true,
             message: 'image-uploaded',
-            source: 'cache',
             data: {
-                url: "/cache/" + currentTid + ".jpg"
+                url: "/cache/" + currentTid + ".jpg",
+                source: 'cache'
             }
         });
         web.send(message);
