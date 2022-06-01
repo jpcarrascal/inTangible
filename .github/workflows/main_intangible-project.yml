@@ -22,7 +22,7 @@ jobs:
           node-version: '16.x'
 
       - name: npm install, build, and test
-        path: ./server
+        working-directory: ./server
         run: |
           npm install
           npm run build --if-present
