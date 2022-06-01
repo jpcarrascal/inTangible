@@ -69,14 +69,14 @@ def on_message(ws, message):
                     if message.find("Wrong") != -1:
                         print(message)
                         return -1
-                neopixel_functions.pixels_on(c)
+                pixels_on(c)
                 camera.iso = 200
                 camera.shutter_speed = 50000
                 camera.start_preview()
                 sleep(3)
                 camera.capture(filename)
                 camera.stop_preview()
-                neopixel_functions.pixels_off()
+                pixels_off()
                 try:
                     with open(filename, 'rb') as f:
                         r = requests.post("http://"+serverURL+'/upload-image', files={"image": f}, timeout=5)
