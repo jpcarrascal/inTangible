@@ -92,12 +92,7 @@ socket.addEventListener('message', function (event) {
     try {
       let message = JSON.parse(event.data);
       if(message.status = true && message.message == "image-uploaded") {
-        clearInterval(timer);
-        document.querySelectorAll(".cell").forEach( elem => {
-          elem.style.borderColor = "#666666";
-        });
-        document.getElementById("output-image").setAttribute("src",message.data.url);
-        loadImage(message.data.url);
+        loadImage(message);
       }
     } catch {
         console.log("Response is not JSON.")
@@ -108,6 +103,10 @@ socket.addEventListener('message', function (event) {
 function loadImage(data) {
   var img = new Image();
   img.onload = function() {
+      clearInterval(timer);
+      document.querySelectorAll(".cell").forEach( elem => {
+        elem.style.borderColor = "#666666";
+      });
       document.getElementById("output-image").src = img.src;
       document.getElementById("output-image").style.visibility = "visible";
       document.getElementById("wait-text").innerText = "Done."
@@ -121,7 +120,7 @@ function loadImage(data) {
       }, 1500);
   };
 
-  img.src = data;
+  img.src = message.data.url;
 }
 
 function tableCreate() {
