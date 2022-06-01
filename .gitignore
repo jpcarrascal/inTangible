@@ -1,3 +1,4 @@
 server/node_modules
 server/public/cache
+client/conf.py
 .DS_Store

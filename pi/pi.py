@@ -6,9 +6,28 @@ from picamera import PiCamera
 from time import sleep
 import json
 import requests
-import neopixel_functions
 import sys
 import conf
+import board
+import neopixel
+#------------ Neopixel vars and functions: ------------
+pixel_pin = board.D18
+num_pixels = 12
+ORDER = neopixel.RGB
+pixels = neopixel.NeoPixel(
+    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER 
+)
+
+def pixels_on(option=-1):
+    for i in range(num_pixels):
+        pixels[i] = tuple(c[i])
+    pixels.show()
+
+def pixels_off():
+    pixels.fill((0, 0, 0))
+    pixels.show()
+
+#------------ Neopixel functions/ ------------
 
 serverURL = conf.serverURL
 camera = PiCamera()
@@ -50,11 +69,7 @@ def on_message(ws, message):
                     if message.find("Wrong") != -1:
                         print(message)
                         return -1
-                if "c" in params:
-                    c = params["c"]
-                    neopixel_functions.illum(c)
-                else:
-                    neopixel_functions.rainbow()
+                neopixel_functions.pixels_on(c)
                 camera.iso = 200
                 camera.shutter_speed = 50000
                 camera.start_preview()
