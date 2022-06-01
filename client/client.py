@@ -25,8 +25,8 @@ sleep(5)
 rel.safe_read()
 
 def on_message(ws, message):
-    print(message)
     params = json.loads(message)
+    print(params)
     if "x" in params and "y" in params and "c" in params and "tid" in params:
         x =  str(params["x"]).zfill(3)
         y =  str(params["y"]).zfill(3)
@@ -82,7 +82,7 @@ def on_open(ws):
 if __name__ == "__main__":
     while True:
         try:
-            websocket.enableTrace(False)
+            websocket.enableTrace(True)
             ws = websocket.WebSocketApp("ws://" + serverURL + "?id=pi",
                                     on_open=on_open,
                                     on_message=on_message,
@@ -93,7 +93,9 @@ if __name__ == "__main__":
             rel.dispatch()
         except KeyboardInterrupt:
             print("Exiting...")
+            rel.abort()
         except:
             print("Websocket connection Error:")
+            rel.abort()
         print("Reconnecting websocket  after 5 sec")
         sleep(5)

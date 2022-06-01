@@ -10,7 +10,7 @@ function genTokenData(projectNum) {
 }
 let tokenData = genTokenData(123);
 
-//tokenData = { hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738", tokenId: "123000456" }
+tokenData = { hash: "0x11ac16678959949c12d5410212301960fc496813cbc3495bf77aeed738579738", tokenId: "123000456" }
 
 class Random {
   constructor() {
@@ -67,7 +67,11 @@ const cellId = R.random_int(0,NUM_CELLS-1);
 const meta = `inTangible: ${cellId}/${NUM_CELLS}`;
 const x = (cellId % NUM_COLS) * 15 + 60;
 const y = Math.floor(cellId / NUM_COLS) * 15;
-const c = R.random_int(0,4);
+var c = Array();
+for(var i=0; i<9; i++) {
+  c[i] = R.random_int(0, 255);
+}
+
 console.log(`cellid: ${cellId}`)
 console.log(`x: ${x}, y: ${y}`);
 
@@ -161,7 +165,7 @@ function captureImage(x, y, c) {
   });
 }
 
-
+// Animation
 var index = 0;
 var timer = setInterval(() => {
   document.querySelectorAll(".cell").forEach( elem => {
@@ -170,4 +174,4 @@ var timer = setInterval(() => {
   document.getElementById("cell-"+index).style.borderColor = "white";
   index++;
   if(index==NUM_CELLS) index = 0;
-}, 70);
+}, 50);

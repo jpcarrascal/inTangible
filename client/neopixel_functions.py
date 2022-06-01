@@ -47,16 +47,13 @@ def rainbow():
         pixels[i] = wheel(pixel_index & 255)
     pixels.show()
 
-def three():
+def three(c):
     for i in range(num_pixels // 3):
-        #pixels[i] = (0,0,255)
-        pixels[i] = (random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255))
+        pixels[i] = (c[0], c[1], c[2])
     for i in range(num_pixels // 3, (num_pixels // 3)*2-1):
-        # pixels[i] = (200,0,0)
-        pixels[i] = (random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255))
+        pixels[i] = (c[3], c[4], c[5])
     for i in range((num_pixels // 3)*2, num_pixels):
-        # pixels[i] = (150, 150, 150)
-        pixels[i] = (random.randrange(0, 255), random.randrange(0, 255), random.randrange(0, 255))
+        pixels[i] = (c[6], c[7], c[8])
     pixels.show()
 
 def pixels_on(option=-1):

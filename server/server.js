@@ -80,6 +80,12 @@ wss.on('connection', (ws, req) => {
     });
   }
 
+  if(pi) {
+    pi.on('close', function(reasonCode, description) {
+        console.log('Pi disconnected!');
+    });
+  }
+
 });
 
 /* ------------------------ */
