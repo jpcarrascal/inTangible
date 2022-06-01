@@ -52,6 +52,7 @@ def on_message(ws, message):
             if "x" in params and "y" in params and "c" in params and "tid" in params:
                 x =  str(params["x"]).zfill(3)
                 y =  str(params["y"]).zfill(3)
+                c = params["c"]
                 tid = str(params["tid"])
                 filename = '/tmp/' + tid + ".jpg"
                 sercommand = x + ";" + y + "\n"
